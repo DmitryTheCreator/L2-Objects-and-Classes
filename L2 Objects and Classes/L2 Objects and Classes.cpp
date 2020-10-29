@@ -4,24 +4,27 @@
 class Car {
 public:
 	int speed, weight;
-public:
+
 	Car() {
 		speed = 100;
 		weight = 2000;
 		printf("Вызван конструктор Car()\n");
 		printf("Скорость = %d, Вес = %d\n", speed, weight);
+		printf("--------------------------\n");
 	}
 	Car(int speed, int weight) {
 		this->speed = speed;
 		this->weight = weight;
 		printf("Вызван конструктор Car(int speed, int weight)\n");
 		printf("Скорость = %d, Вес = %d\n", speed, weight);
+		printf("--------------------------\n");
 	}
 	Car(const Car& c) {
 		speed = c.speed;
 		weight = c.weight;
 		printf("Вызван конструктор Car(const Car& c)\n");
 		printf("Скорость = %d, Вес = %d\n", speed, weight);
+		printf("--------------------------\n");
 	}
 	~Car() {
 		printf("Вызван деструктор ~Car()\n");
@@ -31,6 +34,7 @@ public:
 		weight *= incr;
 		printf("Вызван метод get_boost(int accel, int incr)\n");
 		printf("Скорость = %d, Вес = %d\n", speed, weight);
+		printf("--------------------------\n");
 	}
 	void crash();
 };
@@ -40,6 +44,7 @@ void Car::crash() {
 	weight *= 0.6;
 	printf("Вызван метод crash()\n");
 	printf("Скорость = %d, Вес = %d\n", speed, weight);
+	printf("--------------------------\n");
 }
 
 class Bus : public Car {
@@ -52,11 +57,13 @@ public:
 		price = 30;
 		printf("Вызван конструктор Bus()\n");
 		printf("Скорость = %d, Вес = %d, Стоимость проезда = %d\n", speed, weight, price);
+		printf("--------------------------\n");
 	}
 	Bus(int speed, int weight, int price) : Car(speed, weight) {
 		this->price = price;
 		printf("Вызван конструктор Bus(int speed, int weight)\n");
 		printf("Скорость = %d, Вес = %d, Стоимость проезда = %d\n", speed, weight, price);
+		printf("--------------------------\n");
 	}
 	Bus(const Bus& b) {
 		speed = b.speed;
@@ -64,6 +71,7 @@ public:
 		price = b.price;
 		printf("Вызван конструктор Bus(const Bus& c)\n");
 		printf("Скорость = %d, Вес = %d, Стоимость проезда = %d\n", speed, weight, price);
+		printf("--------------------------\n");
 	}
 	~Bus() {
 		printf("Вызван деструктор ~Bus()\n");
@@ -74,6 +82,7 @@ public:
 		price *= infl;
 		printf("Вызван метод get_boost(int accel, int incr, int infl)\n");
 		printf("Скорость = %d, Вес = %d, Стоимость проезда = %d\n", speed, weight, price);
+		printf("--------------------------\n");
 	}
 };
 
@@ -88,6 +97,7 @@ public:
 		printf("Вызван конструктор CarPark()\n");
 		printf("Porshe: Скорость = %d, Вес = %d\n", porshe->speed, porshe->weight);
 		printf("Lamba: Скорость = %d, Вес = %d\n", lamba->speed, lamba->weight);
+		printf("--------------------------\n");
 	}
 	CarPark(int speed, int speed2,  int weight, int weight2) {
 		porshe = new Car(speed, weight);
@@ -95,6 +105,7 @@ public:
 		printf("Вызван конструктор CarPark(int speed, int speed2,  int weight, int weight2)\n");
 		printf("Porshe: Скорость = %d, Вес = %d\n", porshe->speed, porshe->weight);
 		printf("Lamba: Скорость = %d, Вес = %d\n", lamba->speed, lamba->weight);
+		printf("--------------------------\n");
 	}
 	CarPark(const CarPark& cp) {
 		porshe = new Car(*(cp.porshe));
@@ -102,15 +113,29 @@ public:
 		printf("Вызван конструктор CarPark(const CarPark& cp)\n");
 		printf("Porshe: Скорость = %d, Вес = %d\n", porshe->speed, porshe->weight);
 		printf("Lamba: Скорость = %d, Вес = %d\n", lamba->speed, lamba->weight);
+		printf("--------------------------\n");
 	}
 	~CarPark() {
 		printf("Вызван деструктор ~CarPark()\n");
+		delete porshe;
+		delete lamba;
+	}
+	void total_values() {
+		int t_speed, t_weight;
+		t_speed = (porshe->speed) + (lamba->speed);
+		t_weight = (porshe->weight) + (lamba->weight);
+		printf("Вызван метод total_values()\n");
+		printf("Общая скорость = %d\n", t_speed);
+		printf("Общий вес = %d\n", t_weight);
+		printf("--------------------------\n");
 	}
 };
 
 int main() {
 	setlocale(LC_ALL, "");
 	{
+		printf("Вызов констуктора Car\n");
+		printf("==========================\n");
 		{
 			Car lada;
 			Car* porsh = new Car(130, 3000);
@@ -118,19 +143,21 @@ int main() {
 			delete porsh;
 			delete lamba;
 		}
-		
+		printf("==========================\n");
 		printf("\n\n");
-
+		printf("Вызов констуктора Bus\n");
+		printf("==========================\n");
 		{
 			Bus uaz(50, 8000, 30);
 			Bus* monstr = new Bus();
-			Bus* quadbike = new Bus(uaz);
+			Car* quadbike = new Bus(uaz);
 			delete monstr;
 			delete quadbike;
 		}
-
+		printf("==========================\n");
 		printf("\n\n");	
-
+		printf("Вызов методов констуктора Bus\n");
+		printf("==========================\n");
 		{
 			Bus autobus;
 			autobus.get_boost(1.3, 1.5, 3.2);
@@ -139,14 +166,18 @@ int main() {
 			mashina->crash();
 			delete mashina;
 		}
-
+		printf("==========================\n");
 		printf("\n\n");
-
-		{
-			CarPark autos(220, 230, 1500, 1600);
+		printf("Вызов констуктора CarPark\n");
+		printf("==========================\n");
+		{			
 			CarPark* cars = new CarPark();
+			CarPark autos(220, 230, 1500, 1600);
+			autos.total_values();
 			delete cars;
 		}
+		printf("==========================\n");
 
+		_getch();
 	}
 }
