@@ -24,9 +24,23 @@ public:
 		printf("Скорость = %d, Вес = %d\n", speed, weight);
 	}
 	~Car() {
-		printf("Вызван дестуктор ~Car()\n");
+		printf("Вызван деструктор ~Car()\n");
 	}
+	void get_boost(float accel, float incr) {
+		speed *= accel;
+		weight *= incr;
+		printf("Вызван метод get_boost(int accel, int incr)\n");
+		printf("Скорость = %d, Вес = %d\n", speed, weight);
+	}
+	void crash();
 };
+
+void Car::crash() {
+	speed = 0;
+	weight *= 0.6;
+	printf("Вызван метод crash()\n");
+	printf("Скорость = %d, Вес = %d\n", speed, weight);
+}
 
 class Bus : public Car {
 protected:
@@ -52,9 +66,15 @@ public:
 		printf("Скорость = %d, Вес = %d, Стоимость проезда = %d\n", speed, weight, price);
 	}
 	~Bus() {
-		printf("Вызван дестуктор ~Bus()\n");
+		printf("Вызван деструктор ~Bus()\n");
 	}
-
+	void get_boost(float accel, float incr, float infl) {
+		speed *= accel;
+		weight *= incr;
+		price *= infl;
+		printf("Вызван метод get_boost(int accel, int incr, int infl)\n");
+		printf("Скорость = %d, Вес = %d, Стоимость проезда = %d\n", speed, weight, price);
+	}
 };
 
 int main() {
@@ -63,18 +83,24 @@ int main() {
 		Car lada;
 		Car* porsh = new Car(130, 3000);
 		Car* lamba = new Car(*porsh);
+		delete porsh;
+		delete lamba;
 		
 		printf("\n\n");
 
 		Bus uaz(50, 8000, 30);
 		Bus* uazik = new Bus();
 		Bus* uazblin = new Bus(uaz);
-
-		printf("\n\n");
-
-		delete porsh;
-		delete lamba;
 		delete uazik;
 		delete uazblin;
+
+		printf("\n\n");	
+
+		Bus autobus;
+		autobus.get_boost(1.3, 1.5, 3.2);
+		Car* mashina = new Car(150, 2500);
+		mashina->get_boost(2.3, 1.2);
+		mashina->crash();
+		delete mashina;
 	}
 }
