@@ -1,6 +1,10 @@
 ﻿#include "iostream"
 #include "conio.h"
 
+//  Создаю класс Car и конструкторы: по умолчанию
+//  с параметрами, копирующий и деструктор.
+//  get_boost изменяет значения переменных
+//  speed, weight
 class Car {
 public:
 	int speed, weight;
@@ -39,6 +43,8 @@ public:
 	void crash();
 };
 
+//  crash наследуется от класса Car, изменяет значения
+//  переменных
 void Car::crash() {
 	speed = 0;
 	weight *= 0.6;
@@ -47,10 +53,12 @@ void Car::crash() {
 	printf("--------------------------\n");
 }
 
+//  Класс Bus наследуется от класса Car.
+//  Добавляется атрибут price
 class Bus : public Car {
-protected:
+public:
 	int price;
-public: 
+
 	Bus() {
 		speed = 60;
 		weight = 7000;
@@ -86,6 +94,10 @@ public:
 	}
 };
 
+//  Класс CarPark использует композицию объектов
+//  класса Car.
+//  total_values суммирует общие атрибуты speed, weight
+//  объектов porshe, lamba
 class CarPark {
 public:
 	Car* porshe;
@@ -134,7 +146,7 @@ public:
 int main() {
 	setlocale(LC_ALL, "");
 	{
-		printf("Вызов констуктора Car\n");
+		printf("Взаимодействие с классом Car\n");
 		printf("==========================\n");
 		{
 			Car lada;
@@ -145,7 +157,7 @@ int main() {
 		}
 		printf("==========================\n");
 		printf("\n\n");
-		printf("Вызов констуктора Bus\n");
+		printf("Взаимодействие с классом Bus\n");
 		printf("==========================\n");
 		{
 			Bus uaz(50, 8000, 30);
@@ -168,7 +180,7 @@ int main() {
 		}
 		printf("==========================\n");
 		printf("\n\n");
-		printf("Вызов констуктора CarPark\n");
+		printf("Взаимодействие с классом CarPark\n");
 		printf("==========================\n");
 		{			
 			CarPark* cars = new CarPark();
