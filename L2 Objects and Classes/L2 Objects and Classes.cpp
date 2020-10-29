@@ -2,7 +2,7 @@
 #include "conio.h"
 
 class Car {
-protected:
+public:
 	int speed, weight;
 public:
 	Car() {
@@ -77,30 +77,76 @@ public:
 	}
 };
 
+class CarPark {
+public:
+	Car* porshe;
+	Car* lamba;
+
+	CarPark() {
+		porshe = new Car();
+		lamba = new Car();
+		printf("Вызван конструктор CarPark()\n");
+		printf("Porshe: Скорость = %d, Вес = %d\n", porshe->speed, porshe->weight);
+		printf("Lamba: Скорость = %d, Вес = %d\n", lamba->speed, lamba->weight);
+	}
+	CarPark(int speed, int speed2,  int weight, int weight2) {
+		porshe = new Car(speed, weight);
+		lamba = new Car(speed2, weight2);
+		printf("Вызван конструктор CarPark(int speed, int speed2,  int weight, int weight2)\n");
+		printf("Porshe: Скорость = %d, Вес = %d\n", porshe->speed, porshe->weight);
+		printf("Lamba: Скорость = %d, Вес = %d\n", lamba->speed, lamba->weight);
+	}
+	CarPark(const CarPark& cp) {
+		porshe = new Car(*(cp.porshe));
+		lamba = new Car(*(cp.lamba));
+		printf("Вызван конструктор CarPark(const CarPark& cp)\n");
+		printf("Porshe: Скорость = %d, Вес = %d\n", porshe->speed, porshe->weight);
+		printf("Lamba: Скорость = %d, Вес = %d\n", lamba->speed, lamba->weight);
+	}
+	~CarPark() {
+		printf("Вызван деструктор ~CarPark()\n");
+	}
+};
+
 int main() {
 	setlocale(LC_ALL, "");
 	{
-		Car lada;
-		Car* porsh = new Car(130, 3000);
-		Car* lamba = new Car(*porsh);
-		delete porsh;
-		delete lamba;
+		{
+			Car lada;
+			Car* porsh = new Car(130, 3000);
+			Car* lamba = new Car(*porsh);
+			delete porsh;
+			delete lamba;
+		}
 		
 		printf("\n\n");
 
-		Bus uaz(50, 8000, 30);
-		Bus* uazik = new Bus();
-		Bus* uazblin = new Bus(uaz);
-		delete uazik;
-		delete uazblin;
+		{
+			Bus uaz(50, 8000, 30);
+			Bus* monstr = new Bus();
+			Bus* quadbike = new Bus(uaz);
+			delete monstr;
+			delete quadbike;
+		}
 
 		printf("\n\n");	
 
-		Bus autobus;
-		autobus.get_boost(1.3, 1.5, 3.2);
-		Car* mashina = new Car(150, 2500);
-		mashina->get_boost(2.3, 1.2);
-		mashina->crash();
-		delete mashina;
+		{
+			Bus autobus;
+			autobus.get_boost(1.3, 1.5, 3.2);
+			Car* mashina = new Car(150, 2500);
+			mashina->get_boost(2.3, 1.2);
+			mashina->crash();
+			delete mashina;
+		}
+
+		printf("\n\n");
+
+		{
+			CarPark autos(220, 230, 1500, 1600);
+			CarPark* cars = new CarPark();
+			delete cars;
+		}
+
 	}
 }
